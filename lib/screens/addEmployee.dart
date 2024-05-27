@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import '../utils/customColors.dart';
+
 class AddEmployeeScreen extends StatefulWidget {
   @override
   _AddEmployeeScreenState createState() => _AddEmployeeScreenState();
@@ -16,6 +18,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.appBarColor,
+
         title: Text('Add Employee'),
       ),
       body: Padding(

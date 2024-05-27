@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import '../utils/customColors.dart';
+
 class UpdateEmployeeScreen extends StatefulWidget {
   final int id;
 
@@ -64,6 +66,8 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.appBarColor,
+
         title: Text('Update Employee'),
       ),
       body: Padding(

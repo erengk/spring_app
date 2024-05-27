@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "20590588398",
+    "project_id": "springbootqrmanager",
+    "storage_bucket": "springbootqrmanager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20590588398:android:9420028be914f24e729eff",
+        "android_client_info": {
+          "package_name": "com.example.spring_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCTfInvYYsYPGgMUD4cR4HnC8SOrfeOUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

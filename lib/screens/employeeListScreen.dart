@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../model/employee.dart';
+import '../utils/customColors.dart';
 import 'addEmployee.dart';
 import 'updateEmployee.dart';
 
@@ -72,6 +73,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.appBarColor,
         title: Text('Employee List'),
         actions: <Widget>[
           IconButton(

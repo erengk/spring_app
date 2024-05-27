@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../utils/customColors.dart';
+
 class DeleteEmployee extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -45,6 +47,8 @@ class DeleteEmployeeState extends State<DeleteEmployee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.appBarColor,
+
         title: Text('Delete Employee'),
       ),
       body: Padding(
