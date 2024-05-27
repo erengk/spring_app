@@ -12,6 +12,8 @@ class UpdateEmployeeScreen extends StatefulWidget {
 }
 
 class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
@@ -22,14 +24,26 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
     fetchEmployee(context);
   }
 
+  @override
+  void dispose() {
+    _idController.dispose();
+    _ageController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _dobController.dispose();
+    super.dispose();
+  }
+
   fetchEmployee(BuildContext context) async {
     try {
       final response = await http.get(Uri.parse('http://10.0.2.2:8080/employee/${widget.id}'));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         setState(() {
+          _idController.text = data['id'].toString();
+          _ageController.text = data['age'].toString();
           _nameController.text = data['name'];
-          _emailController.text = data['email']; // Düzeltme burada
+          _emailController.text = data['email'];
           _dobController.text = data['dob'] ?? '';
         });
       } else {
@@ -58,6 +72,16 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(
+              controller: _idController,
+              decoration: InputDecoration(labelText: 'ID'),
+              enabled: false, // ID alanı sadece görüntüleme için
+            ),
+            TextField(
+              controller: _ageController,
+              decoration: InputDecoration(labelText: 'Age'),
+              enabled: false, // Age alanı sadece görüntüleme için
+            ),
+            TextField(
               controller: _nameController,
               decoration: InputDecoration(labelText: 'Name'),
             ),
@@ -72,25 +96,35 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                final response = await http.put(
-                  Uri.parse('http://10.0.2.2:8080/employee/${widget.id}'),
-                  headers: <String, String>{
-                    'Content-Type': 'application/json; charset=UTF-8',
-                  },
-                  body: jsonEncode({
-                    'name': _nameController.text,
-                    'email': _emailController.text,
-                    'dob': _dobController.text,
-                  }),
-                );
-                if (response.statusCode == 200) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Employee updated successfully'))
+                try {
+                  final response = await http.put(
+                    Uri.parse('http://10.0.2.2:8080/employee/${widget.id}'),
+                    headers: <String, String>{
+                      'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: jsonEncode({
+                      'name': _nameController.text,
+                      'email': _emailController.text,
+                      'dob': _dobController.text,
+                    }),
                   );
-                } else {
+
+                  if (response.statusCode == 200) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Employee updated successfully'))
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Failed to update employee, status code: ${response.statusCode}'))
+                    );
+                    print('Failed to update employee, status code: ${response.statusCode}');
+                    print('Response body: ${response.body}');
+                  }
+                } catch (e) {
+                  print("Error occurred while updating employee: $e");
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed to update employee'))
+                      SnackBar(content: Text('An error occurred while updating employee'))
                   );
                 }
               },
